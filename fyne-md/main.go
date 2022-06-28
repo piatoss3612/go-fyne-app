@@ -56,7 +56,7 @@ func (app *config) makeUI() (*widget.Entry, *widget.RichText) {
 
 func (app *config) createMenuItems(w fyne.Window) {
 	openMenuItem := fyne.NewMenuItem("Open...", app.openFunc(w))
-	saveMenuItem := fyne.NewMenuItem("Save", func() {})
+	saveMenuItem := fyne.NewMenuItem("Save", app.saveFunc(w))
 
 	// disactivate saveMenuItem
 	app.SaveMenuItem = saveMenuItem
@@ -142,5 +142,20 @@ func (app *config) openFunc(w fyne.Window) func() {
 		// set file extensions filter
 		openDialog.SetFilter(filter)
 		openDialog.Show()
+	}
+}
+
+func (app *config) saveFunc(w fyne.Window) func() {
+	return func() {
+		if app.CurrentFile != nil {
+			write, err := storage.Writer(app.CurrentFile)
+			if err != nil {
+				dialog.ShowError(err, w)
+				return
+			}
+
+			write.Write([]byte(app.EditWidget.Text))
+			defer write.Close()
+		}
 	}
 }
