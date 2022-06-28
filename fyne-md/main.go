@@ -1,6 +1,8 @@
 package main
 
 import (
+	"io/ioutil"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -51,7 +53,7 @@ func (app *config) makeUI() (*widget.Entry, *widget.RichText) {
 }
 
 func (app *config) createMenuItems(w fyne.Window) {
-	openMenuItem := fyne.NewMenuItem("Open...", func() {})
+	openMenuItem := fyne.NewMenuItem("Open...", app.openFunc(w))
 	saveMenuItem := fyne.NewMenuItem("Save", func() {})
 
 	// disactivate saveMenuItem
@@ -92,5 +94,37 @@ func (app *config) saveAsFunc(w fyne.Window) func() {
 		}, w)
 
 		saveDialog.Show()
+	}
+}
+
+func (app *config) openFunc(w fyne.Window) func() {
+	return func() {
+		openDialog := dialog.NewFileOpen(func(uc fyne.URIReadCloser, err error) {
+			if err != nil {
+				dialog.ShowError(err, w)
+				return
+			}
+
+			if uc == nil {
+				return
+			}
+
+			defer uc.Close()
+
+			data, err := ioutil.ReadAll(uc)
+			if err != nil {
+				dialog.ShowError(err, w)
+				return
+			}
+
+			app.EditWidget.SetText(string(data))
+
+			app.CurrentFile = uc.URI()
+
+			w.SetTitle("Markdown - " + uc.URI().Name())
+			app.SaveMenuItem.Disabled = false
+		}, w)
+
+		openDialog.Show()
 	}
 }
