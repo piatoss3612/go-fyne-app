@@ -5,16 +5,32 @@
 #### Packaging
 
 ```cmd
-fyne package -appVersion 1.0.0 -name Markdown -appID fyne.markdown -release
+$ fyne package -appVersion 1.0.0 -name Markdown -appID fyne.markdown -release
 ```
 
 #### Testing
 
 ```cmd
-go test -v
+$ go test -v
+=== RUN   Test_MakeUI
+--- PASS: Test_MakeUI (0.00s)
+=== RUN   Test_RunApp
+--- PASS: Test_RunApp (0.00s)
+PASS
+ok      fynemd  0.163s
 ```
 
 ### Gold Watcher
+
+#### Testing
+
+```cmd
+$ go test -v
+=== RUN   TestGold_GetPrices
+--- PASS: TestGold_GetPrices (0.00s)
+PASS
+ok      gold-watcher    0.157s
+```
 
 ### Reference
 
