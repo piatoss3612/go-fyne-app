@@ -8,11 +8,13 @@
 fyne package -appVersion 1.0.0 -name Markdown -appID fyne.markdown -release
 ```
 
-### Testing
+#### Testing
 
 ```cmd
 go test -v
 ```
+
+### Gold Watcher
 
 ### Reference
 
