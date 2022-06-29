@@ -29,7 +29,7 @@ func (app *Config) getPriceText() (*canvas.Text, *canvas.Text, *canvas.Text) {
 		currentTxt := fmt.Sprintf("Current: $%.4f %s", gold.Price, curreny)
 		changeTxt := fmt.Sprintf("Change: $%.4f %s", gold.Change, curreny)
 
-		open = canvas.NewText(openTxt, displayColor)
+		open = canvas.NewText(openTxt, nil)
 		current = canvas.NewText(currentTxt, displayColor)
 		change = canvas.NewText(changeTxt, displayColor)
 	}
