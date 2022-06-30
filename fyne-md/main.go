@@ -42,19 +42,22 @@ func main() {
 }
 
 func (app *config) makeUI() (*widget.Entry, *widget.RichText) {
+	// create main UIs
 	edit := widget.NewMultiLineEntry()
 	preview := widget.NewRichTextFromMarkdown("")
 
 	app.EditWidget = edit
 	app.PreviewWidget = preview
 
-	// add event listener
+	// event listener: listen to changes of text on edit widget
+	// event handler: parsing text on edit widget to markdown and display on preview widget
 	edit.OnChanged = preview.ParseMarkdown
 
 	return edit, preview
 }
 
 func (app *config) createMenuItems(w fyne.Window) {
+	// create menu items
 	openMenuItem := fyne.NewMenuItem("Open...", app.openFunc(w))
 	saveMenuItem := fyne.NewMenuItem("Save", app.saveFunc(w))
 
@@ -64,10 +67,13 @@ func (app *config) createMenuItems(w fyne.Window) {
 
 	saveAsMenuItem := fyne.NewMenuItem("Save as", app.saveAsFunc(w))
 
+	// aggregate menu items as File menu
 	fileMenu := fyne.NewMenu("File", openMenuItem, saveMenuItem, saveAsMenuItem)
 
+	// create main menu
 	menu := fyne.NewMainMenu(fileMenu)
 
+	// set main menu to window
 	w.SetMainMenu(menu)
 }
 
@@ -84,25 +90,31 @@ func (app *config) saveAsFunc(w fyne.Window) func() {
 				return
 			}
 
-			// check file extension
+			// check entered file name's extension
 			if !strings.HasSuffix(strings.ToLower(uc.URI().String()), ".md") {
 				dialog.ShowInformation("Error", "Please name your file with .md extension!", w)
 			}
 
 			// save file
 			uc.Write([]byte(app.EditWidget.Text))
+
+			// cache saved file path
 			app.CurrentFile = uc.URI()
 
 			defer uc.Close()
 
+			// set current window title as Markdown - saved file name
 			w.SetTitle("Markdown - " + uc.URI().Name())
 
+			// activate save menu
 			app.SaveMenuItem.Disabled = false
 		}, w)
 
 		// set default file name and filter
 		saveDialog.SetFileName("untitled.md")
 		saveDialog.SetFilter(filter)
+
+		// show save as dialog
 		saveDialog.Show()
 	}
 }
@@ -125,14 +137,17 @@ func (app *config) openFunc(w fyne.Window) func() {
 
 			defer uc.Close()
 
+			// import markdown file
 			data, err := ioutil.ReadAll(uc)
 			if err != nil {
 				dialog.ShowError(err, w)
 				return
 			}
 
+			// set the content of EditWidget to imported markdown
 			app.EditWidget.SetText(string(data))
 
+			// cache imported file path
 			app.CurrentFile = uc.URI()
 
 			w.SetTitle("Markdown - " + uc.URI().Name())
@@ -147,13 +162,16 @@ func (app *config) openFunc(w fyne.Window) func() {
 
 func (app *config) saveFunc(w fyne.Window) func() {
 	return func() {
+		// check cached file path
 		if app.CurrentFile != nil {
+			// set up to write file to the URI reference
 			write, err := storage.Writer(app.CurrentFile)
 			if err != nil {
 				dialog.ShowError(err, w)
 				return
 			}
 
+			// save file
 			write.Write([]byte(app.EditWidget.Text))
 			defer write.Close()
 		}

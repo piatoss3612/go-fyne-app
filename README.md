@@ -1,12 +1,6 @@
 # Go Fyne App
 
-### Markdown Editor
-
-#### Packaging
-
-```cmd
-$ fyne package -appVersion 1.0.0 -name Markdown -appID fyne.markdown -release
-```
+### 1. Markdown Editor
 
 #### Testing
 
@@ -20,7 +14,19 @@ PASS
 ok      fynemd  0.163s
 ```
 
-### Gold Watcher
+#### Packaging
+
+```cmd
+$ fyne package -appVersion 1.0.0 -name Markdown -appID piatoss.tech.markdown -release
+```
+
+#### Run Application
+
+```
+$ ./Markdown
+```
+
+### 2. Gold Watcher
 
 #### Bundling Resource
 
