@@ -26,9 +26,9 @@ func (app *Config) getPriceText() (*canvas.Text, *canvas.Text, *canvas.Text) {
 			displayColor = color.NRGBA{R: 180, G: 0, B: 0, A: 255}
 		}
 
-		openTxt := fmt.Sprintf("Open: $%.4f %s", gold.PreviousClose, curreny)
-		currentTxt := fmt.Sprintf("Current: $%.4f %s", gold.Price, curreny)
-		changeTxt := fmt.Sprintf("Change: $%.4f %s", gold.Change, curreny)
+		openTxt := fmt.Sprintf("Open: $%.4f %s", gold.PreviousClose, currency)
+		currentTxt := fmt.Sprintf("Current: $%.4f %s", gold.Price, currency)
+		changeTxt := fmt.Sprintf("Change: $%.4f %s", gold.Change, currency)
 
 		open = canvas.NewText(openTxt, nil)
 		current = canvas.NewText(currentTxt, displayColor)
