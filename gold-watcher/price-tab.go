@@ -24,11 +24,11 @@ func (app *Config) getChart() *canvas.Image {
 
 	err := app.downloadFile(apiURL, "gold.png")
 	if err != nil {
-		// use bundled image
-		return nil
+		img = canvas.NewImageFromResource(resourceUnreachablePng)
+	} else {
+		img = canvas.NewImageFromFile("gold.png")
 	}
 
-	img = canvas.NewImageFromFile("gold.png")
 	img.SetMinSize(fyne.NewSize(770, 410))
 	img.FillMode = canvas.ImageFillOriginal
 

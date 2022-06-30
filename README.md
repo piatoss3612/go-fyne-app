@@ -22,6 +22,12 @@ ok      fynemd  0.163s
 
 ### Gold Watcher
 
+#### Bundling Resource
+
+```cmd
+$ fyne bundle unreachable.png >> bundled.go
+```
+
 #### Testing
 
 ```cmd
