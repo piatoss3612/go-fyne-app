@@ -12,10 +12,15 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
 )
 
 func (app *Config) pricesTab() *fyne.Container {
-	return nil
+	chart := app.getChart()
+	chartContainer := container.NewVBox(chart)
+	app.PriceChartContainer = chartContainer
+
+	return chartContainer
 }
 
 func (app *Config) getChart() *canvas.Image {
@@ -30,7 +35,8 @@ func (app *Config) getChart() *canvas.Image {
 	}
 
 	img.SetMinSize(fyne.NewSize(770, 410))
-	img.FillMode = canvas.ImageFillOriginal
+	//img.FillMode = canvas.ImageFillOriginal // doesn't display image
+	img.FillMode = canvas.ImageFillContain
 
 	return img
 }
