@@ -14,8 +14,12 @@ func (app *Config) makeUI() {
 
 	app.PriceContainer = priceContent
 
+	// get toolbar
+	toolbar := app.getToolbar()
+	app.Toolbar = toolbar
+
 	// add container to window
-	finalContent := container.NewVBox(priceContent)
+	finalContent := container.NewVBox(priceContent, toolbar)
 
 	app.MainWindow.SetContent(finalContent)
 }
