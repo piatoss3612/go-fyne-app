@@ -36,8 +36,10 @@ $ go test -v
 --- PASS: TestGold_GetPrices (0.00s)
 === RUN   TestApp_getPriceText
 --- PASS: TestApp_getPriceText (0.00s)
+=== RUN   TestApp_getToolbar
+--- PASS: TestApp_getToolbar (0.00s)
 PASS
-ok      gold-watcher    0.160s
+ok      gold-watcher    0.127s
 ```
 
 ### Reference
