@@ -25,7 +25,7 @@ func (app *Config) makeUI() {
 	toolbar := app.getToolbar()
 	app.Toolbar = toolbar
 
-	// price tab content
+	// get price tab content
 	priceTabContent := app.pricesTab()
 
 	// get application tabs
@@ -37,7 +37,6 @@ func (app *Config) makeUI() {
 
 	// add container to window
 	finalContent := container.NewVBox(priceContent, toolbar, tabs)
-
 	app.MainWindow.SetContent(finalContent)
 
 	// refresh price contents every 10 seconds
@@ -46,6 +45,8 @@ func (app *Config) makeUI() {
 
 func (app *Config) refreshPriceContent() {
 	app.InfoLog.Println("refreshing prices")
+
+	// renew and refresh container
 	open, current, change := app.getPriceText()
 	app.PriceContainer.Objects = []fyne.CanvasObject{open, current, change}
 	app.PriceContainer.Refresh()

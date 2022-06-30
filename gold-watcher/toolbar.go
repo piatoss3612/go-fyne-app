@@ -6,6 +6,7 @@ import (
 )
 
 func (app *Config) getToolbar() *widget.Toolbar {
+	// create toolbar with 4 items
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarSpacer(),
 		widget.NewToolbarAction(theme.DocumentCreateIcon(), func() {}),

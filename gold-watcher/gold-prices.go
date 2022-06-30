@@ -32,12 +32,14 @@ func (g *Gold) GetPrices() (*Price, error) {
 	client := g.Client
 	url := fmt.Sprintf("https://data-asg.goldprice.org/dbXRates/%s", currency)
 
+	// create GET request to url
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Println("error while creating request to goldprice.org")
 		return nil, err
 	}
 
+	// send request and get response
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Println("error while connecting goldprice.org")
@@ -46,6 +48,7 @@ func (g *Gold) GetPrices() (*Price, error) {
 
 	defer resp.Body.Close()
 
+	// read bytes from response body
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		log.Println("error while reading response from goldprice.org")
@@ -53,8 +56,9 @@ func (g *Gold) GetPrices() (*Price, error) {
 	}
 
 	gold := Gold{}
-
 	var previous, current, change float64
+
+	// unmarshal json data read from respnose body
 	err = json.Unmarshal(body, &gold)
 	if err != nil {
 		log.Println("error while decoding response from goldprice.org")

@@ -27,6 +27,8 @@ func main() {
 	// create a fyne application
 	fyneApp := app.NewWithID("piatoss.goldwatcher")
 	myApp.App = fyneApp
+
+	// set http client
 	myApp.HTTPClient = &http.Client{}
 
 	// create loggers
@@ -43,6 +45,7 @@ func main() {
 	myApp.MainWindow.SetFixedSize(true)
 	myApp.MainWindow.SetMaster()
 
+	// get application UIs
 	myApp.makeUI()
 
 	// show and run the application

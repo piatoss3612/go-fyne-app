@@ -4,6 +4,7 @@ import (
 	"testing"
 )
 
+// test if expected result of GetPrices function is equal to dummy data
 func TestGold_GetPrices(t *testing.T) {
 	g := Gold{
 		Prices: nil,

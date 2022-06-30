@@ -13,13 +13,16 @@ import (
 var testApp Config
 
 func TestMain(m *testing.M) {
+	// create dummy fyne application for testing
 	a := test.NewApp()
 	testApp.App = a
 	testApp.HTTPClient = client
+
+	// run application test and pass exit code to os.Exit
 	os.Exit(m.Run())
 }
 
-// data from https://data-asg.goldprice.org/dbXRates/USD
+// actual data from https://data-asg.goldprice.org/dbXRates/USD as dummy data
 var jsonToReturn = `
 {
 	"ts": 1656490029704,
@@ -41,6 +44,7 @@ var jsonToReturn = `
   }
 `
 
+// take http request then return dummy http response
 type RoundTripFunc func(req *http.Request) *http.Response
 
 func (f RoundTripFunc) RoundTrip(req *http.Request) (*http.Response, error) {
@@ -53,6 +57,7 @@ func NewTestClient(fn RoundTripFunc) *http.Client {
 	}
 }
 
+// create dummy http client that only returns jsonToReturn dummy data as body of response
 var client = NewTestClient(func(req *http.Request) *http.Response {
 	return &http.Response{
 		StatusCode: http.StatusOK,

@@ -2,6 +2,7 @@ package main
 
 import "testing"
 
+// test if expected result of getPriceText function is equal to formatted dummy data
 func TestApp_getPriceText(t *testing.T) {
 	open, current, change := testApp.getPriceText()
 	if open.Text != "Open: $1818.5050 USD" {
