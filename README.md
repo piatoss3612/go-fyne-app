@@ -14,7 +14,7 @@ PASS
 ok      fynemd  0.163s
 ```
 
-#### Packaging
+#### Packaging on Windows
 
 ```cmd
 $ fyne package -appVersion 1.0.0 -name Markdown -appID piatoss.tech.markdown -release
@@ -22,7 +22,7 @@ $ fyne package -appVersion 1.0.0 -name Markdown -appID piatoss.tech.markdown -re
 
 #### Run Application
 
-```
+```cmd
 $ ./Markdown
 ```
 
@@ -71,6 +71,18 @@ $ go test -v
 --- PASS: TestSQLiteRepo_DeleteHolding (0.01s)
 PASS
 ok      gold-watcher/repository 0.147s
+```
+
+#### Packaging with Makefile
+
+```cmd
+$ make build
+```
+
+#### Run Application
+
+```cmd
+$ ./GoldWatcher
 ```
 
 ### Reference

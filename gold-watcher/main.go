@@ -12,7 +12,6 @@ import (
 	"fyne.io/fyne/v2/widget"
 
 	_ "github.com/glebarez/go-sqlite"
-	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -36,7 +35,7 @@ func main() {
 	var myApp Config
 
 	// create a fyne application
-	fyneApp := app.NewWithID("piatoss.goldwatcher")
+	fyneApp := app.NewWithID("piatoss.tech.goldwatcher")
 	myApp.App = fyneApp
 
 	// set http client
@@ -47,10 +46,10 @@ func main() {
 	myApp.ErrorLog = log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	// load environment variables from .env file
-	err := godotenv.Load()
-	if err != nil {
-		myApp.ErrorLog.Println("error loading environment variables from .env file")
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	myApp.ErrorLog.Println("error loading environment variables from .env file")
+	// }
 
 	// open a connection to the database
 	sqlDB, err := myApp.ConnectSQL()
