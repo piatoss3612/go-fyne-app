@@ -39,13 +39,18 @@ $ fyne bundle unreachable.png >> bundled.go
 ```cmd
 $ go test -v
 === RUN   TestGold_GetPrices
---- PASS: TestGold_GetPrices (0.00s)
+=== RUN   TestConfig_getHoldings
+--- PASS: TestConfig_getHoldings (0.00s)
+=== RUN   TestConfig_getHoldingSlice
+--- PASS: TestConfig_getHoldingSlice (0.15s)
 === RUN   TestApp_getPriceText
 --- PASS: TestApp_getPriceText (0.00s)
 === RUN   TestApp_getToolbar
 --- PASS: TestApp_getToolbar (0.00s)
+=== RUN   TestApp_addHoldingsDialog
+--- PASS: TestApp_addHoldingsDialog (0.01s)
 PASS
-ok      gold-watcher    0.127s
+ok      gold-watcher    0.300s
 ```
 
 #### Testing Repository Package
