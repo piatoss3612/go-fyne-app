@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"gold-watcher/repository"
 	"strconv"
-	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -98,8 +97,8 @@ func (app *Config) getHoldingSlice() [][]any {
 
 		currentRow = append(currentRow, strconv.FormatInt(h.ID, 10))
 		currentRow = append(currentRow, fmt.Sprintf("%d toz", h.Amount))
-		currentRow = append(currentRow, fmt.Sprintf("$%.2f", float32(h.PurchasePrice/100)))
-		currentRow = append(currentRow, h.PurchaseDate.Format(time.RFC822))
+		currentRow = append(currentRow, fmt.Sprintf("$%.2f", float32(h.PurchasePrice)/100))
+		currentRow = append(currentRow, h.PurchaseDate.Format("2006-01-02"))
 		currentRow = append(currentRow, widget.NewButton("Delete", func() {}))
 
 		slice = append(slice, currentRow)
