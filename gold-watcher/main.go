@@ -62,9 +62,12 @@ func main() {
 	myApp.MainWindow.ShowAndRun()
 }
 
+// connect to SQLite DB
 func (app *Config) ConnectSQL() (*sql.DB, error) {
 	path := ""
 
+	// check if "DB_PATH" environment variable exists
+	// else set fyne app storage path as DB source path
 	if os.Getenv("DB_PATH") != "" {
 		path = os.Getenv("DB_PATH")
 	} else {
@@ -82,6 +85,7 @@ func (app *Config) ConnectSQL() (*sql.DB, error) {
 	return db, nil
 }
 
+// setup SQLite DB
 func (app *Config) setupDB(sqlDB *sql.DB) {
 	app.DB = repository.NewSQLiteRepo(sqlDB)
 

@@ -5,11 +5,13 @@ import (
 	"time"
 )
 
+// custom database errors
 var (
 	errUpdateFailed = errors.New("update failed")
 	errDeleteFailed = errors.New("delete failed")
 )
 
+// database interface
 type Repository interface {
 	Migrate() error
 	InsertHolding(h Holding) (*Holding, error)
@@ -19,6 +21,7 @@ type Repository interface {
 	DeleteHolding(id int64) error
 }
 
+// database record definition
 type Holding struct {
 	ID            int64     `json:"id"`
 	Amount        int       `json:"amount"`

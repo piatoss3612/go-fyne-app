@@ -10,12 +10,14 @@ type SQLiteRepo struct {
 	Conn *sql.DB
 }
 
+// factory function for SQLiteRepo struct
 func NewSQLiteRepo(db *sql.DB) *SQLiteRepo {
 	return &SQLiteRepo{
 		Conn: db,
 	}
 }
 
+// create holdings table if not exists else ignore
 func (repo *SQLiteRepo) Migrate() error {
 	query := `
 	create table if not exists holdings(
@@ -29,6 +31,7 @@ func (repo *SQLiteRepo) Migrate() error {
 	return err
 }
 
+// insert one record to SQLite DB
 func (repo *SQLiteRepo) InsertHolding(h Holding) (*Holding, error) {
 	stmt := `
 	insert into holdings (amount, purchase_date, purchase_price)
@@ -49,6 +52,7 @@ func (repo *SQLiteRepo) InsertHolding(h Holding) (*Holding, error) {
 	return &h, nil
 }
 
+// get all records from SQLite DB
 func (repo *SQLiteRepo) AllHoldings() ([]Holding, error) {
 	query := `
 	select id, amount, purchase_date, purchase_price
@@ -81,6 +85,7 @@ func (repo *SQLiteRepo) AllHoldings() ([]Holding, error) {
 	return all, nil
 }
 
+// get one record by id
 func (repo *SQLiteRepo) GetHoldingByID(id int) (*Holding, error) {
 	query := `
 	select id, amount, purchase_date, purchase_price
@@ -100,7 +105,9 @@ func (repo *SQLiteRepo) GetHoldingByID(id int) (*Holding, error) {
 	return &h, nil
 }
 
+// update one record
 func (repo *SQLiteRepo) UpdateHolding(id int64, updated Holding) error {
+	// validate id
 	if id == 0 {
 		return errors.New("invalid updated id")
 	}
@@ -113,6 +120,7 @@ func (repo *SQLiteRepo) UpdateHolding(id int64, updated Holding) error {
 		return err
 	}
 
+	// check the number of affected rows by executing query
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		return err
@@ -125,12 +133,14 @@ func (repo *SQLiteRepo) UpdateHolding(id int64, updated Holding) error {
 	return nil
 }
 
+// delete one record
 func (repo *SQLiteRepo) DeleteHolding(id int64) error {
 	res, err := repo.Conn.Exec(`delete from holdings where id=?`, id)
 	if err != nil {
 		return err
 	}
 
+	// check the number of affected rows by executing query
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
 		return err

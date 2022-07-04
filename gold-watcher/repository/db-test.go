@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// repository type for test
 type TestRepository struct {
 }
 
