@@ -7,6 +7,9 @@ import (
 	"time"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -15,7 +18,58 @@ func (app *Config) holdingsTab() *fyne.Container {
 }
 
 func (app *Config) getHoldingsTable() *widget.Table {
-	return nil
+	data := app.getHoldingSlice()
+
+	// create table
+	t := widget.NewTable(
+		// return the number of rows and columns
+		func() (int, int) {
+			return len(data), len(data[0])
+		},
+
+		// return template objects
+		func() fyne.CanvasObject {
+			ctr := container.NewVBox(widget.NewLabel(""))
+			return ctr
+		},
+
+		// apply data at specified location on the table
+		func(i widget.TableCellID, o fyne.CanvasObject) {
+			// last cell of the row; expect header
+			if i.Col == (len(data[0])-1) && i.Row != 0 {
+				// put in a delete button
+				w := widget.NewButtonWithIcon("Delete", theme.DeleteIcon(), func() {
+					// show dialog when button is tabbed
+					dialog.ShowConfirm("Delete?", "", func(deleted bool) {
+						id, _ := strconv.Atoi(data[i.Row][i.Col].(string))
+
+						// delete current row
+						err := app.DB.DeleteHolding(int64(id))
+						if err != nil {
+							app.ErrorLog.Println(err)
+						}
+
+						// refresh holdings table
+					}, app.MainWindow)
+				})
+				w.Importance = widget.HighImportance
+
+				o.(*fyne.Container).Objects = []fyne.CanvasObject{w}
+			} else {
+				// put in textual information
+				o.(*fyne.Container).Objects = []fyne.CanvasObject{
+					widget.NewLabel(data[i.Row][i.Col].(string)),
+				}
+			}
+		})
+
+	// set each column width on the table
+	colWidths := []float32{50, 200, 200, 200, 200, 110}
+	for i := 0; i < len(colWidths); i++ {
+		t.SetColumnWidth(i, colWidths[i])
+	}
+
+	return t
 }
 
 // process records into slice to construct a table
