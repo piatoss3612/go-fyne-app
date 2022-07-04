@@ -14,11 +14,13 @@ import (
 )
 
 func (app *Config) holdingsTab() *fyne.Container {
-	return nil
+	app.HoldingsTable = app.getHoldingsTable()
+	return container.NewVBox(app.HoldingsTable)
 }
 
 func (app *Config) getHoldingsTable() *widget.Table {
 	data := app.getHoldingSlice()
+	app.Holdings = data
 
 	// create table
 	t := widget.NewTable(
@@ -50,6 +52,7 @@ func (app *Config) getHoldingsTable() *widget.Table {
 						}
 
 						// refresh holdings table
+						app.refreshHoldingsTable()
 					}, app.MainWindow)
 				})
 				w.Importance = widget.HighImportance
@@ -64,7 +67,7 @@ func (app *Config) getHoldingsTable() *widget.Table {
 		})
 
 	// set each column width on the table
-	colWidths := []float32{50, 200, 200, 200, 200, 110}
+	colWidths := []float32{40, 180, 180, 180, 180, 80}
 	for i := 0; i < len(colWidths); i++ {
 		t.SetColumnWidth(i, colWidths[i])
 	}

@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
 )
@@ -28,10 +27,13 @@ func (app *Config) makeUI() {
 	// get price tab content
 	priceTabContent := app.pricesTab()
 
+	// get holdings tab content
+	holdingsTabContent := app.holdingsTab()
+
 	// get application tabs
 	tabs := container.NewAppTabs(
 		container.NewTabItemWithIcon("Prices", theme.HomeIcon(), priceTabContent),
-		container.NewTabItemWithIcon("Holdings", theme.InfoIcon(), canvas.NewText("Holdings content goes here", nil)),
+		container.NewTabItemWithIcon("Holdings", theme.InfoIcon(), holdingsTabContent),
 	)
 	tabs.SetTabLocation(container.TabLocationTop)
 
@@ -44,8 +46,6 @@ func (app *Config) makeUI() {
 }
 
 func (app *Config) refreshPriceContent() {
-	app.InfoLog.Println("refreshing prices")
-
 	// renew and refresh container
 	open, current, change := app.getPriceText()
 	app.PriceContainer.Objects = []fyne.CanvasObject{open, current, change}
@@ -60,4 +60,9 @@ func (app *Config) refreshPriceContentAtInterval(n int64) {
 	for range time.Tick(time.Second * time.Duration(n)) {
 		app.refreshPriceContent()
 	}
+}
+
+func (app *Config) refreshHoldingsTable() {
+	app.Holdings = app.getHoldingSlice()
+	app.HoldingsTable.Refresh()
 }
