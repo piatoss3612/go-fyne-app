@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"gold-watcher/repository"
 	"io"
 	"net/http"
 	"os"
@@ -16,6 +17,8 @@ func TestMain(m *testing.M) {
 	// create dummy fyne application for testing
 	a := test.NewApp()
 	testApp.App = a
+	testApp.MainWindow = a.NewWindow("")
+	testApp.DB = repository.NewTestRepository()
 	testApp.HTTPClient = client
 
 	// run application test and pass exit code to os.Exit
