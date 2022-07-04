@@ -22,6 +22,22 @@ func (repo *TestRepository) InsertHolding(h Holding) (*Holding, error) {
 
 func (repo *TestRepository) AllHoldings() ([]Holding, error) {
 	var all []Holding
+
+	h := Holding{
+		Amount:        1,
+		PurchaseDate:  time.Now(),
+		PurchasePrice: 1000,
+	}
+	all = append(all, h)
+
+	h = Holding{
+		Amount:        2,
+		PurchaseDate:  time.Now(),
+		PurchasePrice: 2000,
+	}
+	all = append(all, h)
+
+	// all contains two dummy records
 	return all, nil
 }
 
