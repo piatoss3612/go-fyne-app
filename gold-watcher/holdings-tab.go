@@ -14,6 +14,7 @@ import (
 )
 
 func (app *Config) holdingsTab() *fyne.Container {
+	app.Holdings = app.getHoldingSlice()
 	app.HoldingsTable = app.getHoldingsTable()
 	return container.NewBorder(
 		nil, nil, nil, nil, container.NewAdaptiveGrid(1, app.HoldingsTable),
@@ -21,14 +22,11 @@ func (app *Config) holdingsTab() *fyne.Container {
 }
 
 func (app *Config) getHoldingsTable() *widget.Table {
-	data := app.getHoldingSlice()
-	app.Holdings = data
-
 	// create table
 	t := widget.NewTable(
 		// return the number of rows and columns
 		func() (int, int) {
-			return len(data), len(data[0])
+			return len(app.Holdings), len(app.Holdings[0])
 		},
 
 		// return template objects
@@ -40,17 +38,23 @@ func (app *Config) getHoldingsTable() *widget.Table {
 		// apply data at specified location on the table
 		func(i widget.TableCellID, o fyne.CanvasObject) {
 			// last cell of the row; expect header
-			if i.Col == (len(data[0])-1) && i.Row != 0 {
+			if i.Col == (len(app.Holdings[0])-1) && i.Row != 0 {
 				// put in a delete button
 				w := widget.NewButtonWithIcon("Delete", theme.DeleteIcon(), func() {
 					// show dialog when button is tabbed
 					dialog.ShowConfirm("Delete?", "", func(deleted bool) {
-						id, _ := strconv.Atoi(data[i.Row][i.Col].(string))
+						if deleted {
+							id, err := strconv.ParseInt(app.Holdings[i.Row][0].(string), 10, 64)
+							if err != nil {
+								app.ErrorLog.Println(err)
+								return
+							}
 
-						// delete current row
-						err := app.DB.DeleteHolding(int64(id))
-						if err != nil {
-							app.ErrorLog.Println(err)
+							// delete current row
+							err = app.DB.DeleteHolding(id)
+							if err != nil {
+								app.ErrorLog.Println(err)
+							}
 						}
 
 						// refresh holdings table
@@ -63,7 +67,7 @@ func (app *Config) getHoldingsTable() *widget.Table {
 			} else {
 				// put in textual information
 				o.(*fyne.Container).Objects = []fyne.CanvasObject{
-					widget.NewLabel(data[i.Row][i.Col].(string)),
+					widget.NewLabel(app.Holdings[i.Row][i.Col].(string)),
 				}
 			}
 		})
