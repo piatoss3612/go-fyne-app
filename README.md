@@ -34,7 +34,7 @@ $ ./Markdown
 $ fyne bundle unreachable.png >> bundled.go
 ```
 
-#### Testing
+#### Testing Main Package
 
 ```cmd
 $ go test -v
@@ -46,6 +46,26 @@ $ go test -v
 --- PASS: TestApp_getToolbar (0.00s)
 PASS
 ok      gold-watcher    0.127s
+```
+
+#### Testing Repository Package
+
+```cmd
+$ go test -v
+=== RUN   TestSQLiteRepo_Migrate
+--- PASS: TestSQLiteRepo_Migrate (0.01s)
+=== RUN   TestSQLiteRepo_InsertHolding
+--- PASS: TestSQLiteRepo_InsertHolding (0.01s)
+=== RUN   TestSQLiteRepo_AllHoldings
+--- PASS: TestSQLiteRepo_AllHoldings (0.00s)
+=== RUN   TestSQLiteRepo_GetHondingByID
+--- PASS: TestSQLiteRepo_GetHondingByID (0.01s)
+=== RUN   TestSQLiteRepo_UpdateHolding
+--- PASS: TestSQLiteRepo_UpdateHolding (0.05s)
+=== RUN   TestSQLiteRepo_DeleteHolding
+--- PASS: TestSQLiteRepo_DeleteHolding (0.01s)
+PASS
+ok      gold-watcher/repository 0.147s
 ```
 
 ### Reference
